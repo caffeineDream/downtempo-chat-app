@@ -26,12 +26,12 @@ router.post('/deleteRoom', async (req, res) => {
             // Save user
             await user.save();
 
-            res.status(200).send('done');
+            res.status(200).send({ error: false, feedback: 'Room was deleted.' });
         } catch (err) {
-            res.status(500).send(err);
+            res.status(500).send({ error: true, feedback: err });
         };
     } catch (err) {
-        res.status(500).send(err);
+        res.status(500).send({ error: true, feedback: err });
     };
 });
 

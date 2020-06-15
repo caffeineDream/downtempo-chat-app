@@ -21,7 +21,7 @@ router.post('/auth', async (req, res) => {
 
     /* Check if password is correct */
     const passwordMatch = await bcrypt.compare(req.body.password, user.password);
-    if (!passwordMatch)  return res.status(401).send({ error: true, feedback: 'Username and password do not match' });
+    if (!passwordMatch)  return res.status(401).send({ error: true, feedback: 'Username and password don\'t match.' });
 
     /* Create token with payload */
     const payload = { id: user._id, username: user.username, type: user.type};

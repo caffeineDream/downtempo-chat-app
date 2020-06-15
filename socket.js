@@ -1,24 +1,6 @@
 const io = require('socket.io')();
 const jwt = require('jsonwebtoken');
 
-function parseCookie(cookie) {
-    if (!cookie) return;
-    // Remove spaces, divide into key+value strings inside array
-    cookie = cookie.split('; ').join(';');
-    cookie = cookie.split(' =').join('=');
-    cookie = cookie.split(';');
-
-    let object = {};
-
-    // Populate object with keys and values
-    for ( let i = 0; i < cookie.length; i++ ) {
-        cookie[i] = cookie[i].split('=');
-        object[cookie[i][0]] = cookie[i][1];
-    };
-
-    return object;
-};
-
 io.on('connection', socket => {
     // Get user data of connected socket from jwt token
     const cookie = socket.handshake.headers.cookie;
@@ -66,5 +48,23 @@ io.on('connection', socket => {
         };
     });
 });
+
+function parseCookie(cookie) {
+    if (!cookie) return;
+    // Remove spaces, divide into key+value strings inside array
+    cookie = cookie.split('; ').join(';');
+    cookie = cookie.split(' =').join('=');
+    cookie = cookie.split(';');
+
+    let object = {};
+
+    // Populate object with keys and values
+    for ( let i = 0; i < cookie.length; i++ ) {
+        cookie[i] = cookie[i].split('=');
+        object[cookie[i][0]] = cookie[i][1];
+    };
+
+    return object;
+};
 
 module.exports = io;

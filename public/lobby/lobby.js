@@ -80,12 +80,14 @@ createRoomForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     // Send request
     const roomData = { "roomname": createRoomInput.value };
-    const room = await createRoomQuery('/createRoom', roomData);
+    const response = await createRoomQuery('/createRoom', roomData);
     // Render room
-    if (!room.error) {
-        renderRoom({ id: room.id, roomname: room.roomname}, true);
-        socket.emit('new-room-created', room);
+    if (!response.error) {
+        renderRoom({ id: response.id, roomname: response.roomname}, true);
+        socket.emit('new-room-created', response);
     };
+    // Give feedback to the client
+    appendFeedback(response, 'owned-rooms');
     // Clear input
     createRoomInput.value = '';
 });
@@ -117,7 +119,7 @@ async function deleteRoomQuery(url = '', data = {}) {
             body: JSON.stringify(data)
         })
         .then(response => {
-            return response;
+            return response.json();
         });
     } catch (err) {
         console.log(err);
@@ -134,10 +136,14 @@ const deleteRoom = async (e) => {
     e.stopPropagation();
     // Send request
     const roomId = e.target.parentNode.id;
-    await deleteRoomQuery('/deleteRoom', { id: roomId});
-    // Remove room
-    removeRoom(roomId);
-    socket.emit('room-deleted', roomId);
+    const response = await deleteRoomQuery('/deleteRoom', { id: roomId});
+    // Remove room from the page
+    if (!response.error) {
+        removeRoom(roomId);
+        socket.emit('room-deleted', roomId);
+    };
+    // Give feedback to the client
+    appendFeedback(response, 'owned-rooms');
 };
 
 function renderRoom(data, own) {
@@ -170,3 +176,21 @@ function removeRoom(id) {
     document.getElementById(id).remove();
 };
 /* Room interaction script */
+
+function appendFeedback(data, target) {
+    let targetContainer = document.getElementById(target);
+    let popup = document.createElement('div');
+    popup.classList.add('pop-up');
+    if (data.error) {
+        popup.style.color = '#FB3640';
+    } else popup.style.color = '#419D78';
+    popup.innerText = data.feedback;
+    targetContainer.appendChild(popup);
+    // Fade it out after 3s
+    // setTimeout(() => {
+    //     popup.style.opacity = 0;
+    // }, 2750);
+    // setTimeout(() => {
+    //     popup.remove();
+    // }, 3000);
+};

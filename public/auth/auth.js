@@ -88,13 +88,19 @@ async function registerUser(url = '', data = {}) {
 };
 
 function appendFeedback(data, target) {
-    const feedbackLocation = document.getElementById(target)
-    feedbackElement = document.createElement('p');
-    feedbackElement.innerText = data.feedback;
+    let targetContainer = document.getElementById(target);
+    let popup = document.createElement('div');
+    popup.classList.add('pop-up');
     if (data.error) {
-        feedbackElement.classList.add('error-feedback');
-    } else {
-        feedbackElement.classList.add('successful-feedback');
-    };
-    feedbackLocation.append(feedbackElement);
+        popup.style.color = '#FB3640';
+    } else popup.style.color = '#419D78';
+    popup.innerText = data.feedback;
+    targetContainer.appendChild(popup);
+    // Fade it out after 3s
+    setTimeout(() => {
+        popup.style.opacity = 0;
+    }, 2750);
+    setTimeout(() => {
+        popup.remove();
+    }, 3000);
 };
