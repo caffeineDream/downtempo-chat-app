@@ -1,0 +1,48 @@
+<html>
+
+<head>
+  <title>Downtempo</title>
+  <link rel="stylesheet" href="auth.css">
+</head>
+
+<body>
+  <div class="login-box">
+    <h2 class="logo-name">Downtempo</h2>
+    <!-- Login form -->
+    <form id="login-form">
+      <div class="user-box">
+        <label for="username">Username</label>
+        <input id="login-username-input" type="text" name="username" required pattern="^(?![0-9]{16})[0-9a-zA-Z]{4,16}$" autocorrect="off" autocapitalize="off" spellcheck="false">
+      </div>
+      <div class="user-box">
+        <label for="password">Password</label>
+        <input id="login-password-input" type="password" name="password" required pattern="^([1-zA-Z0-1@.\s]{4,})$">
+      </div>
+      <div class='button-container'>
+        <button type="submit">Log in</button>
+        <button type="button" class="form-switch">Register</button>
+      </div>
+    </form>
+    <!-- Register form -->
+    <form id="register-form" class="display-none">
+      <div class="user-box">
+        <label for="username">Username, alphanumerical 4-16 length</label>
+        <input id="register-username-input" type="text" name="username" required pattern="^(?![0-9]{16})[0-9a-zA-Z]{4,16}$" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+      </div>
+      <div class="user-box">
+        <label for="password">Password,  alphanumerical 4 characters min</label>
+        <input id="register-password-input" type="password" name="password" required pattern="^([1-zA-Z0-1@.\s]{4,})$">
+      </div>
+      <div class='button-container'>
+        <button type="submit">Register</button>
+        <button type="button" class="form-switch">Log in</button>
+      </div>
+        <!-- Feedback template -->
+        <!-- <p class="error-feedback"> <%= data.error %> </p>
+        <p class="successful-feedback"> <%= data.feedback %> </p> -->
+    </form>
+  </div>
+  <script src="auth.js"></script>
+</body>
+
+</html>

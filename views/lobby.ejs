@@ -1,0 +1,79 @@
+<html>
+
+<head>
+  <title>Downtempo</title>
+  <link rel="stylesheet" href="lobby.css">
+  <script src="/socket.io/socket.io.js"></script>
+
+</head>
+
+<body>
+  <div class="flex-container">
+    <div class="main" id="user-panel">
+      <div id="user-info">
+        <div id="userpic"></div>
+        <p id="usertag"> <%= clientData.username %> </p>
+            <form id="logout-form" method="POST" action="/logout">
+              <button id="logout-button" type="submit">X</button>
+            </form>
+      </div>
+      <div id="owned-rooms">
+        
+        <% clientData.ownedRooms.forEach(room => { %>
+          <div onclick="joinRoom(this)" id="<%= room.id %>" data-name="<%= room.roomname %>" class="owned-room">
+            <p class="room-name"> <%= room.roomname %></p>
+          <button onclick="deleteRoom(event)" class="delete-room-button">Delete</button>
+          </div>  
+        <% }) %>
+
+      </div>
+      <form id="create-room-form">
+        <input type="text" id="create-room-input" name="roomname" required autocomplete="off">
+        <button type="submit" id="create-room-button">+++</button>
+      </form>
+    </div>
+
+    <div class="main" id="chat-panel">
+
+      <div id="room-desc-container">
+        <p id="room-name">Default space</p>
+        <button onclick="leaveRoom()" id="leave-room-button">Leave room</button>
+      </div>
+      <div id="chat-field">
+
+        <!-- Message template -->
+        <!-- <div class="message-container">
+          <div class="message-tag">15:45  Username:</div>
+          <div class="message">I am message 1!</div>
+        </div> -->
+
+      </div>
+      <form id="send-message-form" autocomplete="off">
+        <input type="text" id="send-message-input">
+        <button type="submit" id="send-message-button">>>></button>
+      </form>
+    </div>
+
+    <div class="main" id="rooms-panel">
+      <div id="all-rooms">
+
+          <% roomsData.forEach(room => { %>
+            <% if ( room.owner.username != clientData.username )  { %>
+              <div onclick="joinRoom(this)" id="<%= room._id %>" data-name="<%= room.roomname %>" class="room">
+                <p class="room-name"> <%= room.roomname %> </p>
+              </div>
+            <% } %>
+          <% }) %>
+
+      </div>
+      <form id="find-rooms-form" autocomplete="off">
+        <input type="text" id="find-rooms-input" disabled>
+        <button type="submit" id="find-rooms-button" disabled>???</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="lobby.js"></script>
+</body>
+
+</html>

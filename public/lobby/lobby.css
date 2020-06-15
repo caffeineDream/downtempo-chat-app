@@ -1,0 +1,45 @@
+@import 'user-panel.css';
+@import 'chat-panel.css';
+@import 'rooms-panel.css';
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	height: 100vh;
+	overflow: hidden;
+	margin: 0;
+	padding: 2%;
+	font-family: 'Arial', sans-serif;
+	background: linear-gradient(#141e30, #243b55);
+	color: white;	
+}
+
+button:focus {
+	outline: none;
+}
+
+.flex-container {
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+
+}
+
+.main {
+	padding: 1%;
+	background-color: rgba(0, 0, 0, 0.5);
+	box-shadow: 0 15px 25px rgba(0, 0 ,0 , 0.6);
+	border-radius: 10px;
+}
