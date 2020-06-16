@@ -2,7 +2,7 @@
 
 <head>
   <title>Downtempo</title>
-  <link rel="stylesheet" href="lobby.css">
+  <link rel="stylesheet" href="/lobby/lobby.css">
   <script src="/socket.io/socket.io.js"></script>
   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
   <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -22,7 +22,7 @@
         
         <% clientData.ownedRooms.forEach(room => { %>
           <div onclick="joinRoom(this)" id="<%= room.id %>" data-name="<%= room.roomname %>" class="owned-room">
-            <p class="room-name"> <%= room.roomname %></p>
+            <p class="room-name"><%= room.roomname %></p>
           <button onclick="deleteRoom(event)" class="delete-room-button">Delete</button>
           </div>  
         <% }) %>
@@ -61,7 +61,7 @@
           <% roomsData.forEach(room => { %>
             <% if ( room.owner.username != clientData.username )  { %>
               <div onclick="joinRoom(this)" id="<%= room._id %>" data-name="<%= room.roomname %>" class="room">
-                <p class="room-name"> <%= room.roomname %> </p>
+                <p class="room-name"><%= room.roomname %></p>
               </div>
             <% } %>
           <% }) %>
@@ -74,7 +74,7 @@
     </div>
   </div>
 
-  <script src="lobby.js"></script>
+  <script src="/lobby/lobby.js"></script>
 </body>
 
 </html>
