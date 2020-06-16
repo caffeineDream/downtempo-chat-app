@@ -1,6 +1,7 @@
 const socket = io();
 const chatPanel = document.getElementById('chat-panel');
 const chatField = document.getElementById('chat-field');
+const roomsPanel = document.getElementById('rooms-panel');
 const sendMessageForm = document.getElementById('send-message-form');
 const sendMessageInput = document.getElementById('send-message-input');
 const roomNameDesc = document.getElementById('room-name');
@@ -177,6 +178,66 @@ function removeRoom(id) {
 };
 /* Room interaction script */
 
+/* Room filter script */
+const findRoomsForm = document.getElementById('find-rooms-form');
+const findRoomsInput = document.getElementById('find-rooms-input');
+
+findRoomsForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    // Delete previus result
+    let prevResult = document.getElementById('filtered-rooms');
+    if (prevResult) prevResult.remove();
+    // Get all existing rooms and search input
+    const nodeList = allRoomsContainer.querySelectorAll('.room');
+    const searchInput = findRoomsInput.value;
+    findRoomsInput.value = '';
+    // Populate roomList with id-roomname pairs
+    const roomList = [];
+    for (let i = 0; i < nodeList.length; i++) {
+        let room = {};
+        room.id = nodeList[i].id
+        room.roomname = nodeList[i].querySelector('.room-name').innerText;
+        roomList.push(room);
+    };
+    // Filter room list by search input
+    let filteredRoomsList = roomList.filter(room => {
+        const matches = room.roomname.match(searchInput);
+        return !!matches;
+    });
+    // Create container for filtered rooms
+    allRoomsContainer.style.display = 'none';
+    const resultContainer = document.createElement('div');
+    resultContainer.id = 'filtered-rooms';
+    resultContainer.draggable = 'true';
+    resultContainer.addEventListener('dragend', () => {
+        resultContainer.remove();
+        allRoomsContainer.style.display = 'flex';
+    });
+    roomsPanel.prepend(resultContainer);
+    // Populate container
+    filteredRoomsList.forEach(room => {
+        renderFilteredRoom(room, resultContainer)
+    });
+});
+
+function renderFilteredRoom (data, target) {
+    // Create room container
+    roomDiv = document.createElement('div');
+    roomDiv.setAttribute('id', data.id);
+    roomDiv.setAttribute('data-name', data.roomname);
+    roomDiv.setAttribute('onclick', 'joinRoom(this)');
+    roomDiv.classList.add('room');
+    // Create room name tag
+    roomNamePar = document.createElement('p');
+    roomNamePar.classList.add('room-name');
+    roomNamePar.innerText = data.roomname;
+    roomDiv.append(roomNamePar);
+    // Append room to target container
+    target.append(roomDiv);
+};
+
+/* Room filter script */
+
 function appendFeedback(data, target) {
     let targetContainer = document.getElementById(target);
     let popup = document.createElement('div');
@@ -187,10 +248,10 @@ function appendFeedback(data, target) {
     popup.innerText = data.feedback;
     targetContainer.appendChild(popup);
     // Fade it out after 3s
-    // setTimeout(() => {
-    //     popup.style.opacity = 0;
-    // }, 2750);
-    // setTimeout(() => {
-    //     popup.remove();
-    // }, 3000);
+    setTimeout(() => {
+        popup.style.opacity = 0;
+    }, 2750);
+    setTimeout(() => {
+        popup.remove();
+    }, 3000);
 };
