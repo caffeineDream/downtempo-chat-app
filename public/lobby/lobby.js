@@ -138,7 +138,7 @@ const joinRoom = (room) => {
 const deleteRoom = async (e) => {
     e.stopPropagation();
     // Send request
-    const roomId = e.target.parentNode.id;
+    const roomId = e.currentTarget.parentNode.id;
     const response = await deleteRoomQuery('/deleteRoom', { id: roomId});
     // Remove room from the page
     if (!response.error) {

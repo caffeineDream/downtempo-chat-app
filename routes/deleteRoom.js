@@ -8,7 +8,6 @@ router.use(express.json());
 
 /* Delete room by id */
 router.post('/deleteRoom', async (req, res) => {
-
     const roomId = req.body.id
     const room = await Room.findById(roomId);
     const user = await User.findById(room.owner.id)
