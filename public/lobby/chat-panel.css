@@ -3,6 +3,8 @@
     display: none;
     flex-flow: column nowrap;
     justify-content: space-between;
+    opacity: 0;
+    animation: appear 0.5s ease-out 0s 1 forwards;
 }
 
 #room-desc-container {

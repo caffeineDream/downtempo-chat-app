@@ -8,12 +8,14 @@ const roomNameDesc = document.getElementById('room-name');
 
 /* On socket events */
 socket.on('connection-to-room', data => {
+    chatPanel.style.animationName = 'appear';
     chatPanel.style.display = 'flex';
+    chatField.style.opacity = 1;
     roomNameDesc.innerText = data.roomname;
     chatField.innerHTML = '';
     appendMessage(data.message, 'System');
 });
-socket.on('leaving-room', data => {
+socket.on('leaving-room', () => {
     chatPanel.style.display = 'none';
     roomNameDesc.innerText = '';
     chatField.innerHTML = '';
@@ -166,15 +168,21 @@ function renderRoom(data, own) {
         roomDiv.classList.add('owned-room');
         deleteRoomButton = document.createElement('button');
         deleteRoomButton.classList.add('delete-room-button');
-        deleteRoomButton.innerText = 'Delete';
+        deleteRoomButton.innerText = '<i class="fa fa-times" aria-hidden="true"></i>';
         deleteRoomButton.setAttribute('onclick', 'deleteRoom(event)');
+        deleteRoomButton.innerHTML = '<i class="fa fa-times" aria-hidden="true"></i>';
         roomDiv.append(deleteRoomButton);
         ownedRoomsContainer.append(roomDiv);
     };
 };
 
 function removeRoom(id) {
-    document.getElementById(id).remove();
+    const room = document.getElementById(id);
+    room.style.animationName = 'disappear';
+    room.style.animationTimingFunction = 'linear';
+    setTimeout(function() {
+        room.remove();
+    }, 1000);
 };
 /* Room interaction script */
 
@@ -211,6 +219,7 @@ findRoomsForm.addEventListener('submit', (e) => {
     resultContainer.draggable = 'true';
     resultContainer.addEventListener('dragend', () => {
         resultContainer.remove();
+        allRoomsContainer.style.animation = 'none';
         allRoomsContainer.style.display = 'flex';
     });
     roomsPanel.prepend(resultContainer);

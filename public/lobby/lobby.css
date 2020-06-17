@@ -67,3 +67,34 @@ button:focus {
 		transform: scale(1);
 	}
 }
+
+@keyframes appear {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+@keyframes disappear {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+@keyframes showSwipe {
+	0% {
+		transform: translate(0);
+	}
+	50% {
+		transform: translate(-6px, -2px);
+	}
+	100% {
+		transform: translateX(0);
+	}
+	
+}
