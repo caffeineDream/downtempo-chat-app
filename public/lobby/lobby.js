@@ -24,6 +24,11 @@ socket.on('connection-to-room', data => {
 });
 socket.on('leaving-room', () => {
     resetChatField();
+    // Reset room styles
+    if (previousRoom) {
+        previousRoom.style.boxShadow = 'none';
+        previousRoom.setAttribute('onclick', 'joinRoom(this)');
+    };
 })
 socket.on('message', data => {
     appendMessage(data.message, data.sender);
@@ -92,6 +97,7 @@ const createRoomForm = document.getElementById('create-room-form');
 const createRoomInput = document.getElementById('create-room-input');
 const ownedRoomsContainer = document.getElementById('owned-rooms');
 const allRoomsContainer = document.getElementById('all-rooms');
+let previousRoom;
 
 createRoomForm.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -144,9 +150,15 @@ async function deleteRoomQuery(url = '', data = {}) {
 }
 
 const joinRoom = (room) => {
-    const roomId = room.id;
-    const roomName = room.dataset.name;
-    socket.emit('join-room-query', { id: roomId, roomname: roomName });
+    socket.emit('join-room-query', { id: room.id, roomname: room.dataset.name });
+    // Style previous and now-active rooms
+    if (previousRoom) {
+        previousRoom.style.boxShadow = 'none';
+        previousRoom.setAttribute('onclick', 'joinRoom(this)');
+    };
+    previousRoom = room;
+    room.style.boxShadow = '1.5px 1.5px 1px 0px #03E9F4';
+    room.removeAttribute('onclick');
 };
 
 const deleteRoom = async (e) => {
