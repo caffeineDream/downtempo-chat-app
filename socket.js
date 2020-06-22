@@ -15,7 +15,16 @@ io.on('connection', socket => {
         socket.broadcast.emit('new-room-created', { id: data.id, roomname: data.roomname });
     });
     socket.on('room-deleted', id => {
+        // Drop all sockets from room by room Id
+        io.of('/').in(id).clients((clients) => {
+            if (!clients) return;
+            // For each client in room:
+            clients.forEach(clientId => {
+                io.sockets.connected[clientId].leaveAll();
+            });
+         });
         socket.broadcast.emit('room-deleted', id);
+        socket.broadcast.emit('current-room-deleted', id); // handle on client
     })
     // On joining room query
     socket.on('join-room-query', data => {

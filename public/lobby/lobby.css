@@ -2,6 +2,7 @@
 @import 'chat-panel.css';
 @import 'rooms-panel.css';
 
+
 * {
 	box-sizing: border-box;
 }
@@ -22,10 +23,6 @@ body {
 	color: white;	
 }
 
-button:focus {
-	outline: none;
-}
-
 .flex-container {
 	height: 100%;
 	width: 100%;
@@ -38,11 +35,61 @@ button:focus {
 }
 
 .main {
+	min-width: 120px;
 	padding: 1%;
 	background-color: rgba(0, 0, 0, 0.5);
 	box-shadow: 0 15px 25px rgba(0, 0 ,0 , 0.6);
 	border-radius: 10px;
 }
+
+form.main-form {
+    margin: 0;
+    height: 60px;
+    width: 100%;
+    padding: 10px 0;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+form.main-form input {
+    height: 100%;
+    width: 100%;
+    margin-right: 15px;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.03);
+    outline: none;
+    border: 1.5px solid rgba(255, 255, 255, 0.5);
+    padding: 0 10px;
+    font-size: 18px;
+	color: white;
+}
+
+button {
+    height: 100%;
+    width: 40px;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.03);
+    color: #03E9F4;
+    font-size: 12px;
+    text-align:center;
+	vertical-align: middle;
+	text-decoration: none;
+	overflow: hidden;
+	transition: .25s;
+	border: 1.5px solid rgba(255, 255, 255, 0.5);   
+}
+
+button:hover {
+    background: #03E9F4;
+	color: #F1EEE6;
+	box-shadow: 0 0 0.1px #03E9F4,
+				0 0 0.5px #03E9F4,
+				0 0 1px #03E9F4,
+				0 0 2.5px #03E9F4;
+}
+
+
 
 .pop-up {
 	position: absolute;

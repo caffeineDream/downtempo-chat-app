@@ -5,8 +5,15 @@ const roomsPanel = document.getElementById('rooms-panel');
 const sendMessageForm = document.getElementById('send-message-form');
 const sendMessageInput = document.getElementById('send-message-input');
 const roomNameDesc = document.getElementById('room-name');
+const amOnline = document.getElementById('amOnline');
 
 /* On socket events */
+socket.on('connect', () => {
+    amOnline.style.color = '#B5F44A';
+});
+socket.on('disconnect', () => {
+    amOnline.style.color = '#DB504A';
+})
 socket.on('connection-to-room', data => {
     chatPanel.style.animationName = 'appear';
     chatPanel.style.display = 'flex';
@@ -16,9 +23,7 @@ socket.on('connection-to-room', data => {
     appendMessage(data.message, 'System');
 });
 socket.on('leaving-room', () => {
-    chatPanel.style.display = 'none';
-    roomNameDesc.innerText = '';
-    chatField.innerHTML = '';
+    resetChatField();
 })
 socket.on('message', data => {
     appendMessage(data.message, data.sender);
@@ -26,8 +31,11 @@ socket.on('message', data => {
 socket.on('new-room-created', data => {
     renderRoom(data, false);
 });
-socket.on('room-deleted', id => {
-    removeRoom(id);
+socket.on('room-deleted', roomId => {
+    removeRoom(roomId);
+});
+socket.on('current-room-deleted', roomId => {
+    resetChatField();
 });
 socket.on('user-connected-to-room', data => {
     appendMessage(`${data.username} has entered the room.`, 'System');
@@ -66,6 +74,12 @@ function appendMessage(messageString, senderName) {
     /* Append elements */
     messageContainer.append(messageTag, message);
     chatField.prepend(messageContainer);
+};
+
+function resetChatField() {
+    chatPanel.style.display = 'none';
+    roomNameDesc.innerText = '';
+    chatField.innerHTML = '';
 };
 
 const leaveRoom = () => {
@@ -143,6 +157,7 @@ const deleteRoom = async (e) => {
     // Remove room from the page
     if (!response.error) {
         removeRoom(roomId);
+        resetChatField();
         socket.emit('room-deleted', roomId);
     };
     // Give feedback to the client

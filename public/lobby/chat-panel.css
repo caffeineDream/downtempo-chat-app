@@ -21,7 +21,6 @@
 }
 
 #room-desc-container button#leave-room-button {
-    text-transform: none;
     width: auto;
 }
 
@@ -70,58 +69,7 @@
     margin-right: 5px;
 }
 
-
 #chat-field .message-container .message {
     word-break: break-all;
     width: 100%;
-}
-
-
-#send-message-form {
-    margin: 0;
-    height: 60px;
-    width: 100%;
-    padding: 10px 0;
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-
-}
-
-#send-message-form input#send-message-input {
-    height: 100%;
-    width: 100%;
-    margin-right: 15px;
-    border-radius: 5px;
-    background-color: rgba(255, 255, 255, 0.03);
-    outline: none;
-    border: 1.5px solid rgba(255, 255, 255, 0.5);
-    padding: 0 10px;
-    font-size: 18px;
-    color: white;
-}
-
-#send-message-form button#send-message-button {
-    height: 100%;
-    width: 40px;
-    border-radius: 5px;
-    background: rgba(255, 255, 255, 0.03);
-    color: #03E9F4;
-    font-size: 12px;
-    text-align:center;
-	vertical-align: middle;
-	text-decoration: none;
-	text-transform: uppercase;
-	overflow: hidden;
-	transition: .25s;
-	border: 1.5px solid rgba(255, 255, 255, 0.5);
-}
-
-#send-message-form button#send-message-button:hover {
-	background: #03E9F4;
-	color: #F1EEE6;
-	box-shadow: 0 0 0.1px #03E9F4,
-				0 0 0.5px #03E9F4,
-				0 0 1px #03E9F4,
-				0 0 2.5px #03E9F4;
 }
