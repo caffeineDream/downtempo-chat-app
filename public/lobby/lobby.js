@@ -11,6 +11,7 @@ const createRoomInput = document.getElementById('create-room-input');
 const ownedRoomsContainer = document.getElementById('owned-rooms');
 const allRoomsContainer = document.getElementById('all-rooms');
 let previousRoom;
+let beep = new Audio('../beep.mp3')
 
 /* On socket events */
 socket.on('connect', () => {
@@ -37,6 +38,7 @@ socket.on('leaving-room', () => {
 })
 socket.on('message', data => {
     appendMessage(data.message, data.sender);
+    beep.play();
 });
 socket.on('new-room-created', data => {
     renderRoom(data, false);
