@@ -6,6 +6,11 @@ const sendMessageForm = document.getElementById('send-message-form');
 const sendMessageInput = document.getElementById('send-message-input');
 const roomNameDesc = document.getElementById('room-name');
 const amOnline = document.getElementById('amOnline');
+const createRoomForm = document.getElementById('create-room-form');
+const createRoomInput = document.getElementById('create-room-input');
+const ownedRoomsContainer = document.getElementById('owned-rooms');
+const allRoomsContainer = document.getElementById('all-rooms');
+let previousRoom;
 
 /* On socket events */
 socket.on('connect', () => {
@@ -72,7 +77,7 @@ function appendMessage(messageString, senderName) {
     message.classList.add('message');
     /* Add content to message tag */
     let date = new Date;
-    let timeStamp = `${date.getHours()}:${date.getMinutes()}`;
+    let timeStamp = date.toTimeString().substring(0, 5);
     messageTag.innerText = `${timeStamp} ${senderName}:`;
     /* Add content to message */
     message.innerText = messageString;
@@ -93,12 +98,6 @@ const leaveRoom = () => {
 /* Chat panel script */
 
 /* Room interaction script */
-const createRoomForm = document.getElementById('create-room-form');
-const createRoomInput = document.getElementById('create-room-input');
-const ownedRoomsContainer = document.getElementById('owned-rooms');
-const allRoomsContainer = document.getElementById('all-rooms');
-let previousRoom;
-
 createRoomForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     // Send request
@@ -216,6 +215,8 @@ function removeRoom(id) {
 /* Room filter script */
 const findRoomsForm = document.getElementById('find-rooms-form');
 const findRoomsInput = document.getElementById('find-rooms-input');
+const findRoomsButton = document.getElementById('find-rooms-button');
+const closeResultsButton = document.getElementById('close-results-button');
 
 findRoomsForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -245,15 +246,33 @@ findRoomsForm.addEventListener('submit', (e) => {
     resultContainer.id = 'filtered-rooms';
     resultContainer.draggable = 'true';
     resultContainer.addEventListener('dragend', () => {
+        // Remove results, get back all rooms container
         resultContainer.remove();
         allRoomsContainer.style.animation = 'none';
         allRoomsContainer.style.display = 'flex';
+        // Get back find rooms button, hide itself
+        findRoomsButton.style.display = 'inline-block';
+        closeResultsButton.style.display = 'none';
     });
     roomsPanel.prepend(resultContainer);
     // Populate container
     filteredRoomsList.forEach(room => {
         renderFilteredRoom(room, resultContainer)
     });
+    // Swap find button with close results button
+    findRoomsButton.style.display = 'none';
+    closeResultsButton.style.display = 'inline-block';
+});
+
+closeResultsButton.addEventListener('click', function() {
+    // Remove results, get back all rooms container
+    let result = document.getElementById('filtered-rooms');
+    result.remove();
+    allRoomsContainer.style.animation = 'none';
+    allRoomsContainer.style.display = 'flex';
+    // Get back find rooms button, hide itself
+    findRoomsButton.style.display = 'inline-block';
+    this.style.display = 'none';
 });
 
 function renderFilteredRoom (data, target) {
@@ -271,7 +290,6 @@ function renderFilteredRoom (data, target) {
     // Append room to target container
     target.append(roomDiv);
 };
-
 /* Room filter script */
 
 function appendFeedback(data, target) {
