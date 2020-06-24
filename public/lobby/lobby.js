@@ -11,7 +11,8 @@ const createRoomInput = document.getElementById('create-room-input');
 const ownedRoomsContainer = document.getElementById('owned-rooms');
 const allRoomsContainer = document.getElementById('all-rooms');
 let previousRoom;
-let beep = new Audio('../beep.mp3')
+let beep = new Audio('../beep.mp3');
+beep.volume = 0.05;
 
 /* On socket events */
 socket.on('connect', () => {
@@ -86,6 +87,7 @@ function appendMessage(messageString, senderName) {
     /* Append elements */
     messageContainer.append(messageTag, message);
     chatField.prepend(messageContainer);
+    chatField.scrollTop = chatField.scrollHeight;
 };
 
 function resetChatField() {
